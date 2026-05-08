@@ -15,6 +15,7 @@ import { Route as SensorsRouteImport } from './routes/sensors'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as EnergyRouteImport } from './routes/energy'
 import { Route as EmergencyRouteImport } from './routes/emergency'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WaterRoute = WaterRouteImport.update({
@@ -47,6 +48,11 @@ const EmergencyRoute = EmergencyRouteImport.update({
   path: '/emergency',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +61,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/emergency': typeof EmergencyRoute
   '/energy': typeof EnergyRoute
   '/maintenance': typeof MaintenanceRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/emergency': typeof EmergencyRoute
   '/energy': typeof EnergyRoute
   '/maintenance': typeof MaintenanceRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/emergency': typeof EmergencyRoute
   '/energy': typeof EnergyRoute
   '/maintenance': typeof MaintenanceRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics'
     | '/emergency'
     | '/energy'
     | '/maintenance'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/emergency'
     | '/energy'
     | '/maintenance'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/analytics'
     | '/emergency'
     | '/energy'
     | '/maintenance'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   EmergencyRoute: typeof EmergencyRoute
   EnergyRoute: typeof EnergyRoute
   MaintenanceRoute: typeof MaintenanceRoute
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmergencyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
   EmergencyRoute: EmergencyRoute,
   EnergyRoute: EnergyRoute,
   MaintenanceRoute: MaintenanceRoute,
