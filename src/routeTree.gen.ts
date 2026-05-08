@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WaterRouteImport } from './routes/water'
+import { Route as EnergyRouteImport } from './routes/energy'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WaterRoute = WaterRouteImport.update({
   id: '/water',
   path: '/water',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnergyRoute = EnergyRouteImport.update({
+  id: '/energy',
+  path: '/energy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/energy': typeof EnergyRoute
   '/water': typeof WaterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/energy': typeof EnergyRoute
   '/water': typeof WaterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/energy': typeof EnergyRoute
   '/water': typeof WaterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/water'
+  fullPaths: '/' | '/energy' | '/water'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/water'
-  id: '__root__' | '/' | '/water'
+  to: '/' | '/energy' | '/water'
+  id: '__root__' | '/' | '/energy' | '/water'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EnergyRoute: typeof EnergyRoute
   WaterRoute: typeof WaterRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/water'
       fullPath: '/water'
       preLoaderRoute: typeof WaterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/energy': {
+      id: '/energy'
+      path: '/energy'
+      fullPath: '/energy'
+      preLoaderRoute: typeof EnergyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EnergyRoute: EnergyRoute,
   WaterRoute: WaterRoute,
 }
 export const routeTree = rootRouteImport
