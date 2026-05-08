@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WaterRouteImport } from './routes/water'
 import { Route as WasteRouteImport } from './routes/waste'
+import { Route as SensorsRouteImport } from './routes/sensors'
 import { Route as EnergyRouteImport } from './routes/energy'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const WaterRoute = WaterRouteImport.update({
 const WasteRoute = WasteRouteImport.update({
   id: '/waste',
   path: '/waste',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SensorsRoute = SensorsRouteImport.update({
+  id: '/sensors',
+  path: '/sensors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EnergyRoute = EnergyRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/energy': typeof EnergyRoute
+  '/sensors': typeof SensorsRoute
   '/waste': typeof WasteRoute
   '/water': typeof WaterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/energy': typeof EnergyRoute
+  '/sensors': typeof SensorsRoute
   '/waste': typeof WasteRoute
   '/water': typeof WaterRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/energy': typeof EnergyRoute
+  '/sensors': typeof SensorsRoute
   '/waste': typeof WasteRoute
   '/water': typeof WaterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/energy' | '/waste' | '/water'
+  fullPaths: '/' | '/energy' | '/sensors' | '/waste' | '/water'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/energy' | '/waste' | '/water'
-  id: '__root__' | '/' | '/energy' | '/waste' | '/water'
+  to: '/' | '/energy' | '/sensors' | '/waste' | '/water'
+  id: '__root__' | '/' | '/energy' | '/sensors' | '/waste' | '/water'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EnergyRoute: typeof EnergyRoute
+  SensorsRoute: typeof SensorsRoute
   WasteRoute: typeof WasteRoute
   WaterRoute: typeof WaterRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/waste'
       fullPath: '/waste'
       preLoaderRoute: typeof WasteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sensors': {
+      id: '/sensors'
+      path: '/sensors'
+      fullPath: '/sensors'
+      preLoaderRoute: typeof SensorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/energy': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EnergyRoute: EnergyRoute,
+  SensorsRoute: SensorsRoute,
   WasteRoute: WasteRoute,
   WaterRoute: WaterRoute,
 }
